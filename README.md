@@ -3,9 +3,9 @@ Build a haplotype scaffold for a VCF/BCF from a PED file
 
 Usage:
 
-makeScaffold --vcf myGenotypes.vcf.gz --fam myPedigreees.txt --reg X:Y-Z --myScaffoldedGenotypes.vcf.gz
+makeScaffold --vcf myGenotypes.vcf.gz --fam myPedigreees.txt --reg chr1 --myScaffoldedGenotypes.vcf.gz
 
-makeScaffold --vcf myGenotypes.vcf.gz --fam myPedigreees.txt --reg X:Y-Z --myScaffoldedGenotypes.bcf
+makeScaffold --vcf myGenotypes.vcf.gz --fam myPedigreees.txt --reg chr22:10000000-20000000 --myScaffoldedGenotypes.bcf
 
 
 cat myPedigreees.txt
