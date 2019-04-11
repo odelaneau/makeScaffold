@@ -1,10 +1,18 @@
 #include "data.h"
 
+#define OFILE_VCFU	0
+#define OFILE_VCFC	1
+#define OFILE_BCFC	2
+
 
 void data::writeGenotypes(string filename) {
 	// Init
 	vrb.title("Writing genotypes in ["  + filename + "]");
-	string file_format = "wz";
+
+	string file_format = "w";
+	unsigned int file_type = OFILE_VCFU;
+	if (filename.size() > 6 && filename.substr(filename.size()-6) == "vcf.gz") { file_format = "wz"; file_type = OFILE_VCFC; }
+	if (filename.size() > 3 && filename.substr(filename.size()-3) == "bcf") { file_format = "wb"; file_type = OFILE_BCFC; }
 	htsFile * fp = hts_open(filename.c_str(),file_format.c_str());
 	bcf_hdr_t * hdr = bcf_hdr_init("w");
 	bcf1_t *rec    = bcf_init1();
@@ -53,5 +61,10 @@ void data::writeGenotypes(string filename) {
 	bcf_destroy1(rec);
 	bcf_hdr_destroy(hdr);
 	if (hts_close(fp)) vrb.error("Non zero status when closing VCF/BCF file descriptor");
-	vrb.bullet("VCF writing [Compressed / N=" + stb.str(vec_names.size()) + " / L=" + stb.str(chr.size()) + "]");
+
+	switch (file_type) {
+	case OFILE_VCFU: vrb.bullet("VCF writing [Uncompressed / N=" + stb.str(vec_names.size()) + " / L=" + stb.str(chr.size()) + "]"); break;
+	case OFILE_VCFC: vrb.bullet("VCF writing [Compressed / N=" + stb.str(vec_names.size()) + " / L=" + stb.str(chr.size()) + "]"); break;
+	case OFILE_BCFC: vrb.bullet("BCF writing [Compressed / N=" + stb.str(vec_names.size()) + " / L=" + stb.str(chr.size()) + "]"); break;
+	}
 }
