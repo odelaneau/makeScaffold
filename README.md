@@ -11,6 +11,9 @@ makeScaffold --vcf myGenotypes.vcf.gz --fam myPedigreees.txt --reg chr22:1000000
 cat myPedigreees.txt
 
 child1 father1 mother1
+
 child2 father2 mother2
+
 child3 father3 mother3
+
 child4 father4 mother4
